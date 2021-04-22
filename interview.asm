@@ -1,9 +1,6 @@
 ; Name: "interview.asm"
 ;
-; Description: This file is responsible for orchestrating the
-;              user inputting floats into an array, displaying
-;              the array, and calculating the sum of the user-
-;              entered numbers.
+; Description: This file is responsible for...
 ;
 ; Author: Ethan Davidson
 ;         EthanDavidson@csu.fullerton.edu
@@ -18,11 +15,20 @@
 
 ; Imports
 extern printf
+extern scanf
 
 ; Constants
 section .data
-  debug_dialog_1 db "Name: %s", 0xA, 0x0
-  debug_dialog_2 db "Salary: %f", 0xA, 0x0
+  dialog_1 db "Hello, %s. I am Ms. Fenster. The interview will begin now.", 0xA, "Wow! $%.2lf is a lot of cash. Who do you think you are? Chris Sawyer? (y or n)", 0xA, 0x0
+  dialog_2 db "Alright. Now we will get to work on some electricity.", 0xA, "Please enter the resistance of circuit #1 in Ohms.", 0xA, 0x0
+  dialog_3 db "What is the resistance of circuit #2 in Ohms?", 0xA, 0x0
+  dialog_4 db "The total resistance is %lf Ohms.", 0xA, "Were you a computer science major? (y or n)", 0xA, 0x0
+  dialog_5 db "Thank you. Please follow the exit signs to the front desk.", 0xA, 0x0
+
+  text_input db "%s"
+  magnum_opus_salary dq 1000000.00; $1,000,000.00
+  professional_salary dq 88000.88; $88,000.88
+  blue_collar_salary dq 1200.12; $1,200.12
 
 ; Exports
 section .text
@@ -47,24 +53,82 @@ interview:
   push r15
   pushf
 
-  ; Place arguments in registers for longer-term storage.
+  ; Place arguments in higher registers for safe-keeping.
   mov r15, rdi
   movsd xmm15, xmm0
 
   ; Dummy push to the align stack.
-  push qword 0x0
+  ; push qword 0x0
 
-  ; Print the welcome message.
-  mov rax, 0x0
-  mov rdi, debug_dialog_1
-  mov rsi, r15
-  call printf
-
-  ; Print the welcome message.
+  ; Print the first message. "Hello, {name}. I am Ms. Fenster..."
   mov rax, 0x1
-  mov rdi, debug_dialog_2
-  mov rsi, xmm15
+  mov rdi, dialog_1
+  mov rsi, r15
+  movsd xmm0, xmm15
   call printf
+
+  ; Await and capture interviewee's response.
+  mov rdi, text_input
+  mov rsi, rsp
+  call scanf
+  
+  ; Confirm interviewee is Chris Sawyer.
+  mov r14, 'y'
+  cmp al, r14; try al and ax instead of rax
+  je bring_out_the_big_bucks
+
+  ; Print the second message. "Alright. Now we will get to work on..."
+  mov rax, 0x0
+  mov rdi, dialog_2
+  call printf
+
+  ; Read the resistance of circuit #1
+  ; mov rdi, text_input
+  ; mov rsi, rsp
+  ; call scanf
+
+  ; Print the third message. "What is the resistance of..."
+  mov rax, 0x0
+  mov rdi, dialog_3
+  call printf
+
+  ; Print the fourth message. "The total resistance is..."
+  mov rax, 0x1
+  mov rdi, dialog_4
+  movsd xmm0, xmm15; TODO: replace xmm15 with total resistance
+  call printf
+
+  ; Await and capture interviewee's response.
+  mov rdi, text_input
+  mov rsi, rsp
+  call scanf
+  
+  ; Confirm interviewee majored in computer science.
+  mov r14, 'y'
+  cmp rax, r14; try al and ax instead of rax
+  je hire_this_person
+
+  ; movsd xmm15, blue_collar_salary;
+  mov r14, 0x4092C07AE147AE14 ; $1200.12 in IEEE 754
+  movq xmm15, r14
+
+  jmp follow_the_exit_signs
+
+hire_this_person:
+  ; movsd xmm15, professional_salary
+
+bring_out_the_big_bucks:
+  ; movsd xmm15, magnum_opus_salary
+
+follow_the_exit_signs:
+
+  ; Print the fifth message. "Thank you. Please follow the exit signs..."
+  mov rax, 0x0
+  mov rdi, dialog_5
+  call printf
+
+  ; Prepare to return the salary.
+  movsd xmm0, xmm15
 
   ; 15 pops
   popf

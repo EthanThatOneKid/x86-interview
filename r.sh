@@ -22,10 +22,10 @@ echo "Compile interview.asm"
 nasm -f elf64 -l interview.lis -o interview.o interview.asm
 
 echo "Link each object file"
-gcc -m64 -no-pie -o a.out -std=c++17 main.o interview.o
+gcc -m64 -no-pie -o a.out -std=c++17 main.o interview.o -lstdc++
 
 echo "--- PROGRAM START ---"
-gdb ./a.out
+./a.out
 echo "---- PROGRAM END ----"
 
 echo "Delete temporary files"
