@@ -57,9 +57,6 @@ interview:
   mov r15, rdi
   movsd xmm15, xmm0
 
-  ; Dummy push to the align stack.
-  ; push qword 0x0
-
   ; Print the first message. "Hello, {name}. I am Ms. Fenster..."
   mov rax, 0x1
   mov rdi, dialog_1
@@ -72,10 +69,13 @@ interview:
   mov rsi, rsp
   call scanf
   
+  ; Dummy push to the align stack.
+  push qword 0x0
+
 break1:
   ; Confirm interviewee is Chris Sawyer.
   mov r14, 'y'
-  cmp rax, r14; I have tried al and ax instead of rax
+  cmp rdi, r14; I have tried al and ax instead of rax
 break2:
   je bring_out_the_big_bucks
 
@@ -141,7 +141,7 @@ follow_the_exit_signs:
   ; Prepare to return the salary.
   movsd xmm0, xmm15
 
-  ; pop rax
+  pop rax
 
   ; 15 pops
   popf
