@@ -72,9 +72,11 @@ interview:
   mov rsi, rsp
   call scanf
   
+break1:
   ; Confirm interviewee is Chris Sawyer.
   mov r14, 'y'
-  cmp al, r14; try al and ax instead of rax
+  cmp rax, r14; I have tried al and ax instead of rax
+break2:
   je bring_out_the_big_bucks
 
   ; Print the second message. "Alright. Now we will get to work on..."
@@ -91,6 +93,14 @@ interview:
   mov rax, 0x0
   mov rdi, dialog_3
   call printf
+
+  ; Read the resistance of circuit #2
+  ; mov rdi, text_input
+  ; mov rsi, rsp
+  ; call scanf
+
+  ; Here, do all of the resistance calculations
+  ; Read: https://github.com/AaronLieb/cs240/blob/f8a3290e01c51b7a0680c3b5698241dad798527d/f2/compute_resistance.asm
 
   ; Print the fourth message. "The total resistance is..."
   mov rax, 0x1
@@ -109,13 +119,14 @@ interview:
   je hire_this_person
 
   ; movsd xmm15, blue_collar_salary;
-  mov r14, 0x4092C07AE147AE14 ; $1200.12 in IEEE 754
-  movq xmm15, r14
+  ; mov r14, 0x4092C07AE147AE14 ; $1200.12 in IEEE 754
+  ; movq xmm15, r14
 
   jmp follow_the_exit_signs
 
 hire_this_person:
   ; movsd xmm15, professional_salary
+  jmp follow_the_exit_signs
 
 bring_out_the_big_bucks:
   ; movsd xmm15, magnum_opus_salary
@@ -129,6 +140,8 @@ follow_the_exit_signs:
 
   ; Prepare to return the salary.
   movsd xmm0, xmm15
+
+  ; pop rax
 
   ; 15 pops
   popf
