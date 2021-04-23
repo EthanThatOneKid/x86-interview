@@ -26,9 +26,7 @@ section .data
   dialog_5 db "Thank you. Please follow the exit signs to the front desk.", 0xA, 0x0
 
   text_input db "%s"
-  magnum_opus_salary dq 1000000.00; $1,000,000.00
-  professional_salary dq 88000.88; $88,000.88
-  blue_collar_salary dq 1200.12; $1,200.12
+  number_input db "%lf"
 
 ; Exports
 section .text
@@ -69,14 +67,10 @@ interview:
   mov rsi, rsp
   call scanf
   
-  ; Dummy push to the align stack.
-  push qword 0x0
-
-break1:
   ; Confirm interviewee is Chris Sawyer.
-  mov r14, 'y'
-  cmp rdi, r14; I have tried al and ax instead of rax
-break2:
+  mov rax, [rsp]
+  cdqe 
+  cmp rax, 'y'
   je bring_out_the_big_bucks
 
   ; Print the second message. "Alright. Now we will get to work on..."
@@ -118,18 +112,18 @@ break2:
   cmp rax, r14; try al and ax instead of rax
   je hire_this_person
 
-  ; movsd xmm15, blue_collar_salary;
-  ; mov r14, 0x4092C07AE147AE14 ; $1200.12 in IEEE 754
-  ; movq xmm15, r14
-
+  mov r13, 1200.12; $1,200.12; 0x4092C07AE147AE14 in IEEE 754
+  cvtsi2sd xmm15, r13
   jmp follow_the_exit_signs
 
 hire_this_person:
-  ; movsd xmm15, professional_salary
+  mov r13, 88000.88; $88,000.88
+  cvtsi2sd xmm15, r13
   jmp follow_the_exit_signs
 
 bring_out_the_big_bucks:
-  ; movsd xmm15, magnum_opus_salary
+  mov r13, 1000000; $1,000,000.00
+  cvtsi2sd xmm15, r13
 
 follow_the_exit_signs:
 
@@ -140,8 +134,6 @@ follow_the_exit_signs:
 
   ; Prepare to return the salary.
   movsd xmm0, xmm15
-
-  pop rax
 
   ; 15 pops
   popf
