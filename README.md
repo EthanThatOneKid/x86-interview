@@ -8,10 +8,14 @@ This project utilizes version 3 of the [GNU General Public License](LICENSE).
 
 ## Usage ✨
 
+1. Clone
 1. Install
 1. Run program
 
 ```sh
+git clone https://github.com/EthanThatOneKid/x86-interview.git
+cd x86-interview
+
 ./i.sh  # Installs and compiles program.
 ./a.out # Runs compiled program.
 ```
