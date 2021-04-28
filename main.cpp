@@ -23,17 +23,17 @@ int main() {
   double offer = interview(name, salary);
 
   if (offer >= MAGNUM_OPUS_SALARY) {
-    std::cout << "Hello, Mr. Sawyer. I am the receptionist.";
+    std::cout << "Hello, Mr. Sawyer. I am the receptionist. ";
     std::cout << "This envelope has your job offer starting at 1 million dollars annually." << std::endl;
-    std::cout << "Please start any time you like. In the meantime, our CTO wishes to have dinner with you.";
+    std::cout << "Please start any time you like. In the meantime, our CTO wishes to have dinner with you. ";
     std::cout << "Have a very nice evening, Mr. Sawyer." << std::endl;
   } else if (offer >= PROFESSIONAL_SALARY) {
     std::cout << "Hello, " << name << ". I am the receptionist." << std::endl;
-    std::cout << "This envelope contains your job offer with a starting salary of $" << salary << ". ";
+    std::cout << "This envelope contains your job offer with a starting salary of $" << offer << ". ";
     std::cout << "Please check back with us on Monday morning at 8:00 AM." << std::endl;
   } else {
     std::cout << "Hello, " << name << ". I am the receptionist." << std::endl;
-    std::cout << "We have an opening for you in the cafeteria for $" << salary << " annually." << std::endl;
+    std::cout << "We have an opening for you in the cafeteria for $" << offer << " annually." << std::endl;
     std::cout << "Take your time in letting us know your decision." << std::endl;
   }
   std::cout << "Bye." << std::endl;

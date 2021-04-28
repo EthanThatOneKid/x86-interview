@@ -1,1 +1,0 @@
-sudo apt install gcc g++ nasm gdb

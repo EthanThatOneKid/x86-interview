@@ -25,8 +25,8 @@ section .data
   dialog_4 db "The total resistance is %lf Ohms.", 0xA, "Were you a computer science major? (y or n)", 0xA, 0x0
   dialog_5 db "Thank you. Please follow the exit signs to the front desk.", 0xA, 0x0
 
-  text_input db "%s"
-  number_input db "%lf"
+  text_input db "%s", 0x0
+  float_input db "%lf", 0x0
 
 ; Exports
 section .text
@@ -79,27 +79,44 @@ interview:
   call printf
 
   ; Read the resistance of circuit #1
-  ; mov rdi, text_input
-  ; mov rsi, rsp
-  ; call scanf
+  ; and store in xmm14.
+  mov rdi, float_input
+  mov rsi, rsp
+  call scanf
+  movsd xmm14, [rsp]
 
   ; Print the third message. "What is the resistance of..."
   mov rax, 0x0
   mov rdi, dialog_3
   call printf
 
-  ; Read the resistance of circuit #2
-  ; mov rdi, text_input
-  ; mov rsi, rsp
-  ; call scanf
+  ; Read the resistance of circuit #1
+  ; and store in xmm13.
+  mov rdi, float_input
+  mov rsi, rsp
+  call scanf
+  movsd xmm13, [rsp]
+
+  ; Create a constant for 1.0
+  ; and store it in xmm11
+  mov rax, 0x3FF0000000000000; 1.0 in IEEE 754
+  movq xmm11, rax
 
   ; Here, do all of the resistance calculations
-  ; Read: https://github.com/AaronLieb/cs240/blob/f8a3290e01c51b7a0680c3b5698241dad798527d/f2/compute_resistance.asm
+  ; and store the result in xmm12.
+  movsd xmm10, xmm11; Copy over the 1.0 temporarily.
+  divsd xmm10, xmm14; 1.0 / R_1
+  addsd xmm12, xmm10; Add to denominator.
+  movsd xmm10, xmm11; Copy over the 1.0 temporarily.
+  divsd xmm10, xmm13; 1.0 / R_2
+  addsd xmm12, xmm10; Add to denominator.
+  divsd xmm11, xmm12; 1.0 / denominator
+  movsd xmm12, xmm11; Move calculation to xmm12.
 
   ; Print the fourth message. "The total resistance is..."
   mov rax, 0x1
   mov rdi, dialog_4
-  movsd xmm0, xmm15; TODO: replace xmm15 with total resistance
+  movsd xmm0, xmm12
   call printf
 
   ; Await and capture interviewee's response.
@@ -108,24 +125,30 @@ interview:
   call scanf
   
   ; Confirm interviewee majored in computer science.
-  mov r14, 'y'
-  cmp rax, r14; try al and ax instead of rax
+  mov rax, [rsp]
+  cdqe 
+  cmp rax, 'y'
   je hire_this_person
 
-  mov r13, 1200.12; $1,200.12; 0x4092C07AE147AE14 in IEEE 754
-  cvtsi2sd xmm15, r13
+  ; Prepare to offer a minimal salary.
+  mov r8, 0x4092C07AE147AE14; $1,200.12 in IEEE 754
   jmp follow_the_exit_signs
 
 hire_this_person:
-  mov r13, 88000.88; $88,000.88
-  cvtsi2sd xmm15, r13
+
+  ; Offer a respectable salary.
+  mov r8, 0x40F57C0E147AE148; $88,000.88 in IEEE 754
   jmp follow_the_exit_signs
 
 bring_out_the_big_bucks:
-  mov r13, 1000000; $1,000,000.00
-  cvtsi2sd xmm15, r13
+
+  ; Offer a magnum opus-level salary.
+  mov r8, 0x412E848000000000; $1,000,000.00 in IEEE 754
 
 follow_the_exit_signs:
+
+  ; Place final salary into xmm15
+  movq xmm15, r8
 
   ; Print the fifth message. "Thank you. Please follow the exit signs..."
   mov rax, 0x0
