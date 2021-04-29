@@ -57,8 +57,8 @@ interview:
   pushf
 
   ; Place arguments in higher registers for safe-keeping.
-  mov r15, rdi
-  movsd xmm15, xmm0
+  mov r15, rdi; Store the interviewee's name in r15.
+  movsd xmm15, xmm0; Store the interviewee's salary in xmm15.
 
   ; Print the first message. "Hello, {name}. I am Ms. Fenster..."
   mov rax, 0x1
