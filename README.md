@@ -1,4 +1,4 @@
-# `x86-interview` 👨‍💻
+# `x86-interview` 🤵
 
 > An x86 assembly program that walks through a digital interview.
 
