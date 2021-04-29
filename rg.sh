@@ -2,7 +2,7 @@
 #
 # Name: "run.sh"
 #
-# Description: This file compiles, links, and runs the program.
+# Description: This file compiles, links, and runs the program in GDB mode.
 #
 # Author: Ethan Davidson
 #         EthanDavidson@csu.fullerton.edu

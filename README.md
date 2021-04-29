@@ -16,8 +16,8 @@ This project utilizes version 3 of the [GNU General Public License](LICENSE).
 git clone https://github.com/EthanThatOneKid/x86-interview.git
 cd x86-interview
 
-bash ./i.sh  # Installs and compiles program.
-./a.out # Runs compiled program.
+bash ./i.sh # Installs and compiles program.
+./a.out     # Runs compiled program.
 ```
 
 ## Development 👨‍💻

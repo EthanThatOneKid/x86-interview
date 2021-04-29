@@ -1,6 +1,11 @@
 ; Name: "interview.asm"
 ;
-; Description: This file is responsible for...
+; Description: This file walks the user through a digital interview
+;              with Ms. Fenster of Paramount Programmers, Inc.
+;              This includes several questions relying on the
+;              user's input. The offered salary at the end of
+;              the interview is based on how the questions are
+;              answered.
 ;
 ; Author: Ethan Davidson
 ;         EthanDavidson@csu.fullerton.edu
