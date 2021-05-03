@@ -43,6 +43,23 @@ sudo apt install gcc g++ nasm gdb
 Once you have installed the dependencies, running the program is as easy as `./r.sh`!
 Alternatively, you may run a debugging (GDB) instance of the program with `./rg.sh`.
 
+## Test Program
+
+Once the dependencies are installed, the program can be tested out without the need of manually inputting the interview responses.
+There are 3 different test-interviewees: Chris Sawyer ([`chris.txt`](test-inputs/chris.txt)), a computer science major named Joey Brown ([`csmajor.txt`](test-inputs/csmajor.txt)), and a social science major named Joey Brown ([`social.txt`](test-inputs/social.txt)).
+
+To run all of the tests, simply run the following command:
+
+```sh
+bash t.sh
+```
+
+To run a specific test, refer to the following example:
+
+```sh
+bash r.sh < test-inputs/chris.txt
+```
+
 ---
 
 Assembled with 💖 by [EthanThatOneKid](https://github.com/EthanThatOneKid/)
