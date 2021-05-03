@@ -18,6 +18,7 @@
  */
 
 #include <iostream>
+#include <iomanip>
 
 #define MAGNUM_OPUS_SALARY 200000 // $200,000
 #define PROFESSIONAL_SALARY 50000 // $50,000
@@ -52,7 +53,8 @@ int main()
   else if (offer >= PROFESSIONAL_SALARY)
   {
     std::cout << "Hello, " << name << ". I am the receptionist." << std::endl;
-    std::cout << "This envelope contains your job offer with a starting salary of $" << offer << ". ";
+    std::cout << "This envelope contains your job offer with a starting salary of $";
+    std::cout << std::fixed << std::setprecision(2) << offer << ". "; // Set the offer value's precision.
     std::cout << "Please check back with us on Monday morning at 8:00 AM." << std::endl;
   }
   else
