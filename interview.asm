@@ -103,7 +103,7 @@ interview:
   movsd xmm13, [rsp]
 
   ; Create a constant for 1.0
-  ; and store it in xmm11
+  ; and store it in xmm11.
   mov rax, 0x3FF0000000000000; 1.0 in IEEE 754
   movq xmm11, rax
 
@@ -136,23 +136,23 @@ interview:
   je hire_this_person
 
   ; Prepare to offer a minimal salary.
-  mov r8, 0x4092C07AE147AE14; $1,200.12 in IEEE 754
+  mov r8, 0x4092C07AE147AE14; $1,200.12 in IEEE 754.
   jmp follow_the_exit_signs
 
 hire_this_person:
 
   ; Offer a respectable salary.
-  mov r8, 0x40F57C0E147AE148; $88,000.88 in IEEE 754
+  mov r8, 0x40F57C0E147AE148; $88,000.88 in IEEE 754.
   jmp follow_the_exit_signs
 
 bring_out_the_big_bucks:
 
   ; Offer a magnum opus-level salary.
-  mov r8, 0x412E848000000000; $1,000,000.00 in IEEE 754
+  mov r8, 0x412E848000000000; $1,000,000.00 in IEEE 754.
 
 follow_the_exit_signs:
 
-  ; Place final salary into xmm15
+  ; Place final salary into xmm15.
   movq xmm15, r8
 
   ; Print the fifth message. "Thank you. Please follow the exit signs..."
